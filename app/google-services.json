@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "995586171049",
+    "project_id": "ingilizce-cumleler-1",
+    "storage_bucket": "ingilizce-cumleler-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995586171049:android:a7232daa49944b990cc9b8",
+        "android_client_info": {
+          "package_name": "com.example.ingilizcecumleler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995586171049-lg107nlv41unon50pudnthg3bsh8tdsk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkqIoZCgoPSw-4MO1kACuGJPknz_jagOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995586171049-lg107nlv41unon50pudnthg3bsh8tdsk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
