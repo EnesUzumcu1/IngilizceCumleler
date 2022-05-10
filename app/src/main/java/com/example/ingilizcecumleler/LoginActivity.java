@@ -97,7 +97,9 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        sayfayiTemizle();
+                        if(!binding.beniHatirlacheckBox.isChecked()){
+                            sayfayiTemizle();
+                        }
                         digerSayfayaGit(HomePageActivity.class);
                     }
                     else{
