@@ -20,9 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.ingilizcecumleler.Adapter.CumleAdapter.ButunCumlelerAdapter;
+import com.example.ingilizcecumleler.Adapter.ButunCumlelerAdapter;
 import com.example.ingilizcecumleler.Object.Cumleler;
-import com.example.ingilizcecumleler.Object.Kategoriler;
 import com.example.ingilizcecumleler.R;
 import com.example.ingilizcecumleler.databinding.ActivityFragmentCumleDuzenleBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;

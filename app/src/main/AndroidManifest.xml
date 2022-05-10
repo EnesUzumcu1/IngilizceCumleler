@@ -10,18 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IngilizceCumleler">
         <activity android:name=".CumleIslemleri"
-            android:theme="@style/Theme.IngilizceCumleler.NoActionBar"/>
+            android:theme="@style/Theme.IngilizceCumleler.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".KategoriIslemleri"
-            android:theme="@style/Theme.IngilizceCumleler.NoActionBar" />
+            android:theme="@style/Theme.IngilizceCumleler.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".HomePageActivity"
-            android:theme="@style/Theme.IngilizceCumleler.NoActionBar" />
+            android:theme="@style/Theme.IngilizceCumleler.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".ForgotPasswordActivity"
-            android:theme="@style/Theme.IngilizceCumleler.NoActionBar" />
+            android:theme="@style/Theme.IngilizceCumleler.NoActionBar"
+            android:exported="true"/>
         <activity
             android:name=".LoginActivity"
+            android:exported="true"
             android:theme="@style/Theme.IngilizceCumleler.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

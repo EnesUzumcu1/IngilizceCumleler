@@ -1,11 +1,10 @@
-package com.example.ingilizcecumleler.Adapter.CumleAdapter;
+package com.example.ingilizcecumleler.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ingilizcecumleler.Object.Cumleler;
@@ -14,13 +13,10 @@ import com.example.ingilizcecumleler.databinding.CustomCumleListeBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -29,7 +25,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
-import android.widget.Toast;
 
 public class ButunCumlelerAdapter extends FirestoreRecyclerAdapter<Cumleler,ButunCumlelerAdapter.ButunCumlelerHolder> {
     private CustomCumleListeBinding binding;

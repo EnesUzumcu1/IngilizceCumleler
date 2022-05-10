@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.ingilizcecumleler.CumleIslemleri;
-import com.example.ingilizcecumleler.KategoriIslemleri;
 import com.example.ingilizcecumleler.R;
 import com.example.ingilizcecumleler.databinding.ActivityFragmentCumleIslemleriBinding;
 

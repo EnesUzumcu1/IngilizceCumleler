@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.ingilizcecumleler.Adapter.KategoriDuzenleAdapter;
 import com.example.ingilizcecumleler.Adapter.KategoriSilAdapter;
 import com.example.ingilizcecumleler.Object.Kategoriler;
 import com.example.ingilizcecumleler.R;

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.ingilizcecumleler.Adapter.ButunKategorilerAdapter;
 import com.example.ingilizcecumleler.Object.Kategoriler;
 import com.example.ingilizcecumleler.databinding.ActivityFragmentButunKategorilerBinding;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;

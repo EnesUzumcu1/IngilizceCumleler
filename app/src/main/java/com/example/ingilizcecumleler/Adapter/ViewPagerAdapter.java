@@ -7,9 +7,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.ingilizcecumleler.FragmentHomePage.FragmentCumleIslemleri;
 import com.example.ingilizcecumleler.FragmentHomePage.FragmentKategoriIslemleri;
-import com.example.ingilizcecumleler.R;
-
-import java.util.ArrayList;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

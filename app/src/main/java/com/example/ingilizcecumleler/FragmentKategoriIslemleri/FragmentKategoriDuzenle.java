@@ -22,7 +22,6 @@ import com.example.ingilizcecumleler.Adapter.KategoriDuzenleAdapter;
 import com.example.ingilizcecumleler.Object.Kategoriler;
 import com.example.ingilizcecumleler.R;
 import com.example.ingilizcecumleler.databinding.ActivityFragmentKategoriDuzenleBinding;
-import com.example.ingilizcecumleler.databinding.CustomDialogBoxKategoriDuzenleBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;

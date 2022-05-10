@@ -14,8 +14,6 @@ public class Cumleler {
         this.silindiMi = silindiMi;
     }
 
-
-
     public Cumleler(){}
 
     public String getTr() {

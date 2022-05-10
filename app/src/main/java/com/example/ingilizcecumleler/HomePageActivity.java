@@ -1,18 +1,13 @@
 package com.example.ingilizcecumleler;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.ingilizcecumleler.Adapter.ViewPagerAdapter;
-import com.example.ingilizcecumleler.FragmentHomePage.FragmentCumleIslemleri;
-import com.example.ingilizcecumleler.FragmentHomePage.FragmentKategoriIslemleri;
 import com.example.ingilizcecumleler.databinding.ActivityHomePageBinding;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
 
 public class HomePageActivity extends AppCompatActivity {
     private ActivityHomePageBinding binding;
