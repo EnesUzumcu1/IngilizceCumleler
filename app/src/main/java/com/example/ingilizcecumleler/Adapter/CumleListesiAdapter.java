@@ -12,35 +12,26 @@ import com.example.ingilizcecumleler.R;
 import com.example.ingilizcecumleler.databinding.CustomCumleListeBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
 
-public class ButunCumlelerAdapter extends FirestoreRecyclerAdapter<Cumleler,ButunCumlelerAdapter.ButunCumlelerHolder> {
+public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, CumleListesiAdapter.ButunCumlelerHolder> {
     private CustomCumleListeBinding binding;
     public String islem;
     public int position;
     private OnItemClickListener listener;
     final private Context context;
-    //public String kategoriAdi;
-    Map <String,String> kategoriler;
-    FirebaseFirestore firebase;
-    CollectionReference ref;
-    int i=0;
-    public ButunCumlelerAdapter(@NonNull FirestoreRecyclerOptions<Cumleler> options,String islem,Context context ) {
+    Map<String, String> kategoriMap ;
+
+    public CumleListesiAdapter(@NonNull FirestoreRecyclerOptions<Cumleler> options, String islem, Context context, Map<String, String> kategoriMap ) {
         super(options);
         this.islem = islem;
         this.context = context;
+        this.kategoriMap = kategoriMap;
     }
 
     @Override
@@ -48,15 +39,8 @@ public class ButunCumlelerAdapter extends FirestoreRecyclerAdapter<Cumleler,Butu
         binding.englishSentenceTextView.setText(model.en.toUpperCase(Locale.ENGLISH));
         binding.turkceKelimeTextView.setText(model.tr.toUpperCase(new Locale("tr","TR")));
 
-        /*
-        ref.document(model.kategoriID).get().addOnSuccessListener(documentSnapshot -> {
-            String kategoriAdi = documentSnapshot.get("kategoriAdi").toString();
-            binding.textViewKategoriAdi.setText(kategoriAdi);
-        });
+        binding.textViewKategoriAdi.setText(kategoriMap.get(model.kategoriID));
 
-         */
-
-        binding.textViewKategoriAdi.setText(kategoriler.get(model.kategoriID));
 
         if(islem.equals(context.getResources().getString(R.string.CumleSil))){
             binding.imageView8.setImageResource(R.drawable.ic_baseline_delete_24);
@@ -75,23 +59,6 @@ public class ButunCumlelerAdapter extends FirestoreRecyclerAdapter<Cumleler,Butu
     @Override
     public ButunCumlelerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         binding = CustomCumleListeBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        firebase = FirebaseFirestore.getInstance();
-        ref = firebase.collection("Kategoriler");
-
-        kategoriler = new HashMap<String, String>();
-        ref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
-                        String kategoriID = documentSnapshot.getId();
-                        String kategoriAdi= documentSnapshot.getData().get("kategoriAdi").toString();
-                        kategoriler.put(kategoriID,kategoriAdi);
-                    }
-                }
-            }
-        });
-
         return new ButunCumlelerHolder(binding.getRoot());
     }
 

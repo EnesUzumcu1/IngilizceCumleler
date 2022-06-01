@@ -6,11 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.ingilizcecumleler.FragmentCumleIslemleri.FragmentButunCumleler;
-import com.example.ingilizcecumleler.FragmentCumleIslemleri.FragmentCumleDuzenle;
+import com.example.ingilizcecumleler.FragmentCumleIslemleri.FragmentCumleListesi;
 import com.example.ingilizcecumleler.FragmentCumleIslemleri.FragmentCumleEkle;
-import com.example.ingilizcecumleler.FragmentCumleIslemleri.FragmentCumleSil;
-import com.example.ingilizcecumleler.FragmentCumleIslemleri.FragmentGeriDonusumKutusu;
 import com.example.ingilizcecumleler.databinding.ActivityCumleIslemleriBinding;
 
 public class CumleIslemleri extends AppCompatActivity {
@@ -42,19 +39,19 @@ public class CumleIslemleri extends AppCompatActivity {
             binding.toolbar.setTitle(getString(R.string.CumleEkle));
         }
         else if(id.equals(getString(R.string.CumleDuzenle))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleDuzenle()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
             binding.toolbar.setTitle(getString(R.string.CumleDuzenle));
         }
         else if(id.equals(getString(R.string.CumleSil))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleSil()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
             binding.toolbar.setTitle(getString(R.string.CumleSil));
         }
         else if(id.equals(getString(R.string.ButunCumleler))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentButunCumleler()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
             binding.toolbar.setTitle(getString(R.string.ButunCumleler));
         }
         else if(id.equals(getString(R.string.GeriDonusumKutusu))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentGeriDonusumKutusu()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
             binding.toolbar.setTitle(getString(R.string.GeriDonusumKutusu));
         }
     }
