@@ -23,5 +23,16 @@
         android:id="@+id/butunCumlelerRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/kategoriSecSpinner" />
+        android:layout_below="@id/cumleSayisiTextView" />
+
+    <TextView
+        android:id="@+id/cumleSayisiTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/kategoriSecButton"
+        android:layout_centerHorizontal="true"
+        android:text="Bulunan cümle sayısı : "
+        android:textAlignment="textEnd"
+        android:textColor="@color/black"
+        android:textStyle="bold|italic" />
 </RelativeLayout>

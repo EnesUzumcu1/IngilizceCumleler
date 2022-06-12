@@ -24,6 +24,7 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
     public String islem;
     public int position;
     private OnItemClickListener listener;
+    private ItemCount count;
     final private Context context;
     Map<String, String> kategoriMap ;
 
@@ -82,11 +83,15 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
                     }
                 });
             }
+            itemCount(count);
         }
     }
 
     public interface OnItemClickListener{
         void onItemClick(DocumentSnapshot documentSnapshot, int position,String butonAdi);
+    }
+    public interface ItemCount{
+        void onItemCount(int count);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         this.listener = listener;
@@ -94,6 +99,11 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
 
     public void buttonClick(String butonAdi){
         listener.onItemClick(getSnapshots().getSnapshot(position),position,butonAdi);
+    }
+    public void setOnItemCount(ItemCount count){this.count = count;}
+
+    public void itemCount(ItemCount count){
+        count.onItemCount(getItemCount());
     }
 
     @Override
@@ -105,4 +115,11 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
     public int getItemViewType(int position) {
         return position;
     }
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
+
+
 }

@@ -20,4 +20,5 @@
     <string name="ikinciButon">ikinci buton</string>
     <string name="kategori_adini_giriniz">Kategori Adını Giriniz.</string>
     <string name="ekle">Ekle</string>
+    <string name="cumle_sayisi">Bulunan cümle sayısı : </string>
 </resources>

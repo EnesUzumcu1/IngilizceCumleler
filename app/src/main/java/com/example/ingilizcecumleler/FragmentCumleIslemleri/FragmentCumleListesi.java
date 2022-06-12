@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.ingilizcecumleler.Adapter.CumleListesiAdapter;
 import com.example.ingilizcecumleler.Object.Cumleler;
 import com.example.ingilizcecumleler.R;
-import com.example.ingilizcecumleler.databinding.ActivityFragmentButunCumlelerBinding;
+import com.example.ingilizcecumleler.databinding.ActivityFragmentCumleListesiBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FragmentCumleListesi extends Fragment {
-    private ActivityFragmentButunCumlelerBinding binding;
+    private ActivityFragmentCumleListesiBinding binding;
     private CumleListesiAdapter adapter;
     FirebaseFirestore firestore;
     CollectionReference collectionReferenceCumleler,collectionReferenceKategoriler;
@@ -56,7 +56,7 @@ public class FragmentCumleListesi extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = ActivityFragmentButunCumlelerBinding.inflate(inflater,container,false);
+        binding = ActivityFragmentCumleListesiBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
 
@@ -106,6 +106,7 @@ public class FragmentCumleListesi extends Fragment {
         binding.kategoriSecButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+"0");
                 if (id.equals(getString(R.string.ButunCumleler))) {
                     listeyiHazirlaButunCumleler(taskID);
                 } else if (id.equals(getString(R.string.CumleSil))) {
@@ -201,6 +202,14 @@ public class FragmentCumleListesi extends Fragment {
         binding.butunCumlelerRecyclerView.setHasFixedSize(true);
         binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.butunCumlelerRecyclerView.setAdapter(adapter);
+        adapter.setOnItemCount(new CumleListesiAdapter.ItemCount() {
+            @Override
+            public void onItemCount(int count) {
+                //Toast.makeText(getContext(),count+" <-",Toast.LENGTH_SHORT).show();
+                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
+            }
+        });
+
         adapter.startListening();
     }
 
@@ -228,6 +237,12 @@ public class FragmentCumleListesi extends Fragment {
                 }
             }
         });
+        adapter.setOnItemCount(new CumleListesiAdapter.ItemCount() {
+            @Override
+            public void onItemCount(int count) {
+                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
+            }
+        });
         adapter.notifyDataSetChanged();
     }
 
@@ -252,6 +267,12 @@ public class FragmentCumleListesi extends Fragment {
                 }
             }
         });
+        adapter.setOnItemCount(new CumleListesiAdapter.ItemCount() {
+            @Override
+            public void onItemCount(int count) {
+                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
+            }
+        });
         adapter.notifyDataSetChanged();
     }
 
@@ -274,6 +295,13 @@ public class FragmentCumleListesi extends Fragment {
                 if(butonAdi.equals(getResources().getString(R.string.ilkButon))) {
                     showDialogAlertCumleDuzenle(documentSnapshot,getResources().getString(R.string.ilkButon));
                 }
+            }
+        });
+        adapter.setOnItemCount(new CumleListesiAdapter.ItemCount() {
+            @Override
+            public void onItemCount(int count) {
+                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
+                //Toast.makeText(getContext(),count+"--",Toast.LENGTH_SHORT).show();
             }
         });
         adapter.notifyDataSetChanged();
