@@ -10,24 +10,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.ingilizcecumleler.Adapter.ButunKategorilerAdapter;
+import com.example.ingilizcecumleler.Adapter.KategoriListesiAdapter;
 import com.example.ingilizcecumleler.Object.Kategoriler;
-import com.example.ingilizcecumleler.databinding.ActivityFragmentButunKategorilerBinding;
+import com.example.ingilizcecumleler.R;
+import com.example.ingilizcecumleler.databinding.ActivityFragmentKategoriListesiBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class FragmentButunKategoriler extends Fragment {
-    private ActivityFragmentButunKategorilerBinding binding;
-    private ButunKategorilerAdapter adapter;
+    private ActivityFragmentKategoriListesiBinding binding;
+    private KategoriListesiAdapter adapter;
     FirebaseFirestore firestore;
     CollectionReference collectionReferenceKategori;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = ActivityFragmentButunKategorilerBinding.inflate(inflater,container,false);
+        binding = ActivityFragmentKategoriListesiBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
 
@@ -46,10 +47,10 @@ public class FragmentButunKategoriler extends Fragment {
         Query query = collectionReferenceKategori;
         query = query.orderBy("kategoriAdi", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<Kategoriler> ayarla =new FirestoreRecyclerOptions.Builder<Kategoriler>().setQuery(query,Kategoriler.class).build();
-        adapter = new ButunKategorilerAdapter(ayarla);
-        binding.butunKategorilerRecyclerView.setHasFixedSize(true);
-        binding.butunKategorilerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.butunKategorilerRecyclerView.setAdapter(adapter);
+        adapter = new KategoriListesiAdapter(ayarla,getResources().getString(R.string.ButunKategoriler),getContext());
+        binding.kategoriListesiRecyclerView.setHasFixedSize(true);
+        binding.kategoriListesiRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.kategoriListesiRecyclerView.setAdapter(adapter);
         adapter.startListening();
     }
 }

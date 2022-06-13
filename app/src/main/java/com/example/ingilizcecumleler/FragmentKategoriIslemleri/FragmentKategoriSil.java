@@ -16,10 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.ingilizcecumleler.Adapter.KategoriSilAdapter;
+import com.example.ingilizcecumleler.Adapter.KategoriListesiAdapter;
 import com.example.ingilizcecumleler.Object.Kategoriler;
 import com.example.ingilizcecumleler.R;
-import com.example.ingilizcecumleler.databinding.ActivityFragmentKategoriSilBinding;
+import com.example.ingilizcecumleler.databinding.ActivityFragmentKategoriListesiBinding;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,17 +29,17 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class FragmentKategoriSil extends Fragment {
-    private ActivityFragmentKategoriSilBinding binding;
+    private ActivityFragmentKategoriListesiBinding binding;
     private FirebaseFirestore firestore;
     private CollectionReference collectionReferenceKategoriler;
     private CollectionReference collectionReferenceCumleler;
-    private KategoriSilAdapter adapter;
+    private KategoriListesiAdapter adapter;
     Dialog dialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding=ActivityFragmentKategoriSilBinding.inflate(inflater,container,false);
+        binding=ActivityFragmentKategoriListesiBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
 
@@ -59,12 +59,12 @@ public class FragmentKategoriSil extends Fragment {
         Query query = collectionReferenceKategoriler;
         query = query.orderBy("kategoriAdi", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<Kategoriler> ayarla =new FirestoreRecyclerOptions.Builder<Kategoriler>().setQuery(query,Kategoriler.class).build();
-        adapter = new KategoriSilAdapter(ayarla);
-        binding.kategoriSilRecyclerView.setHasFixedSize(true);
-        binding.kategoriSilRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.kategoriSilRecyclerView.setAdapter(adapter);
+        adapter = new KategoriListesiAdapter(ayarla,getResources().getString(R.string.KategoriSil),getContext());
+        binding.kategoriListesiRecyclerView.setHasFixedSize(true);
+        binding.kategoriListesiRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.kategoriListesiRecyclerView.setAdapter(adapter);
         adapter.startListening();
-        adapter.setOnItemClickListener(new KategoriSilAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new KategoriListesiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 showDialogAlert(documentSnapshot);
