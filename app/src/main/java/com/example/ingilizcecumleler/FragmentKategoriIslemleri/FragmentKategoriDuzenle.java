@@ -1,17 +1,16 @@
 package com.example.ingilizcecumleler.FragmentKategoriIslemleri;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +29,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 
 public class FragmentKategoriDuzenle  extends Fragment {
     private ActivityFragmentKategoriListesiBinding binding;
@@ -38,10 +36,7 @@ public class FragmentKategoriDuzenle  extends Fragment {
     FirebaseFirestore firestore;
     CollectionReference collectionReferenceKategori;
     Dialog dialog;
-    ProgressDialog progressDialog;
     int basariliIslemSayisi=0;
-    int  i =0;
-    CountDownTimer timer;
     TextView uyari;
     String yeniKategoriString;
 
@@ -73,13 +68,13 @@ public class FragmentKategoriDuzenle  extends Fragment {
         binding.kategoriListesiRecyclerView.setHasFixedSize(true);
         binding.kategoriListesiRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.kategoriListesiRecyclerView.setAdapter(adapter);
-        adapter.startListening();
         adapter.setOnItemClickListener(new KategoriListesiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 showDialogAlert(documentSnapshot);
             }
         });
+        adapter.startListening();
     }
 
     public void showDialogAlert(DocumentSnapshot documentSnapshot){
@@ -87,15 +82,17 @@ public class FragmentKategoriDuzenle  extends Fragment {
         Button kaydetButton = dialog.findViewById(R.id.kaydet_button);
         Button iptalButton = dialog.findViewById(R.id.iptal_button);
 
+        EditText yeniKategori = dialog.findViewById(R.id.yeni_kategori_adi_editText);
+        yeniKategori.setText(documentSnapshot.getString("kategoriAdi"));
+
         kaydetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText yeniKategori = dialog.findViewById(R.id.yeni_kategori_adi_editText);
                 TextView uyari = dialog.findViewById(R.id.uyariTextView);
                 uyari.setText("");
                 yeniKategoriString = yeniKategori.getText().toString().trim().toUpperCase();
                 if(!girdiBosMuKontrol()){
-                    sonucuBeklet(documentSnapshot);
+                    kategoriMevcutMu(documentSnapshot);
                 }
                 else{
                     uyari.setText("Kategori Adı boş bırakılamaz.");
@@ -124,19 +121,23 @@ public class FragmentKategoriDuzenle  extends Fragment {
         return y;
     }
 
-    private boolean kategoriMevcutMu(String girdi){
-        boolean x ;
-        ArrayList<String> durum = new ArrayList<>();
-        durum.add(girdi);
-        Query query = collectionReferenceKategori.whereIn("kategoriAdi", durum);
+    private void kategoriMevcutMu(DocumentSnapshot documentSnapshot){
+        Query query = collectionReferenceKategori.whereEqualTo("kategoriAdi", yeniKategoriString);
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
                 basariliIslemSayisi = documentSnapshots.size();
+                if(basariliIslemSayisi==0){
+                    veriyiGuncelle(documentSnapshot);
+                    listeyiHazirla();
+                    Toast.makeText(getContext(),"Kategori güncellendi: "+yeniKategoriString,Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    TextView t = dialog.findViewById(R.id.uyariTextView);
+                    t.setText("Kategori Zaten Mevcut!.");
+                }
             }
         });
-        x = basariliIslemSayisi > 0;
-        return x;
     }
 
     private void veriyiGuncelle(DocumentSnapshot documentSnapshot){
@@ -146,50 +147,9 @@ public class FragmentKategoriDuzenle  extends Fragment {
         dialog.dismiss();
     }
 
-    private void sonucuBeklet(DocumentSnapshot documentSnapshot){
-
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Kontrol Ediliyor...");
-        progressDialog.setCancelable(false);
-        progressDialog.setProgress(i);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
-
-        progressDialog.show();
-
-
-        timer = new CountDownTimer(3000,3000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                kategoriMevcutMu(yeniKategoriString);
-            }
-
-            @Override
-            public void onFinish() {
-                progressDialog.dismiss();
-                if(girdiKontrol()){
-                    veriyiGuncelle(documentSnapshot);
-                }
-            }
-        }.start();
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
-
-    private boolean girdiKontrol(){
-        boolean x;
-        try {
-            if(kategoriMevcutMu(yeniKategoriString)){
-                TextView t = dialog.findViewById(R.id.uyariTextView);
-                t.setText("Kategori Zaten Mevcut!.");
-                x=  false;
-            }
-            else{
-                x=  true;
-            }
-        }
-        catch (Exception e){
-            x = false;
-        }
-        return x;
-    }
-
 }

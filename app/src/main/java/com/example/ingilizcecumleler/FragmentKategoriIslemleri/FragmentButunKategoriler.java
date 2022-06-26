@@ -51,6 +51,17 @@ public class FragmentButunKategoriler extends Fragment {
         binding.kategoriListesiRecyclerView.setHasFixedSize(true);
         binding.kategoriListesiRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.kategoriListesiRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }

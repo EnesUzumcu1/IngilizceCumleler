@@ -60,7 +60,6 @@
                     android:id="@+id/yeni_en_cumle_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="qwertyuıopğüasdfghjklşizxcvbnmöçQWERTYUIOPĞÜASDFGHJKLŞİZXCVBNMÖÇ123456789-"
                     android:ems="10"
                     android:inputType="text"
                      />
@@ -79,7 +78,6 @@
                     android:id="@+id/yeni_tr_cumle_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="qwertyuıopğüasdfghjklşizxcvbnmöçQWERTYUIOPĞÜASDFGHJKLŞİZXCVBNMÖÇ123456789-"
                     android:ems="10"
                     android:inputType="text"
                     />

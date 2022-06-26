@@ -190,8 +190,7 @@ public class FragmentCumleListesi extends Fragment {
     }
 
     private void listeyiHazirlaButunCumleler(String taskID){
-        Query query = collectionReferenceCumleler;
-        query = query.whereEqualTo("silindiMi",false);
+        Query query = collectionReferenceCumleler.whereEqualTo("silindiMi",false);
         //eger task id yoksa butun cumleleri getirecek. Eger task id varsa secilen kategorideki cumleler gelecek.
         if(taskID !=null){
             query = query.whereEqualTo("kategoriID",taskID);
@@ -209,7 +208,6 @@ public class FragmentCumleListesi extends Fragment {
                 binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
             }
         });
-
         adapter.startListening();
     }
 
@@ -225,7 +223,6 @@ public class FragmentCumleListesi extends Fragment {
         binding.butunCumlelerRecyclerView.setHasFixedSize(true);
         binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.butunCumlelerRecyclerView.setAdapter(adapter);
-        adapter.startListening();
         adapter.setOnItemClickListener(new CumleListesiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position, String butonAdi) {
@@ -243,7 +240,7 @@ public class FragmentCumleListesi extends Fragment {
                 binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
             }
         });
-        adapter.notifyDataSetChanged();
+        adapter.startListening();
     }
 
     private void listeyiHazirlaCumleSil(String taskID){
@@ -258,7 +255,6 @@ public class FragmentCumleListesi extends Fragment {
         binding.butunCumlelerRecyclerView.setHasFixedSize(true);
         binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.butunCumlelerRecyclerView.setAdapter(adapter);
-        adapter.startListening();
         adapter.setOnItemClickListener(new CumleListesiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position,String butonAdi) {
@@ -273,7 +269,7 @@ public class FragmentCumleListesi extends Fragment {
                 binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
             }
         });
-        adapter.notifyDataSetChanged();
+        adapter.startListening();
     }
 
     private void listeyiHazirlaCumleDuzenle(String taskID){
@@ -288,7 +284,6 @@ public class FragmentCumleListesi extends Fragment {
         binding.butunCumlelerRecyclerView.setHasFixedSize(true);
         binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.butunCumlelerRecyclerView.setAdapter(adapter);
-        adapter.startListening();
         adapter.setOnItemClickListener(new CumleListesiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position, String butonAdi) {
@@ -304,7 +299,7 @@ public class FragmentCumleListesi extends Fragment {
                 //Toast.makeText(getContext(),count+"--",Toast.LENGTH_SHORT).show();
             }
         });
-        adapter.notifyDataSetChanged();
+        adapter.startListening();
     }
 
     public void showDialogAlertCumleSil(DocumentSnapshot documentSnapshot){

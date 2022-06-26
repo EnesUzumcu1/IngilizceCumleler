@@ -1,13 +1,11 @@
 package com.example.ingilizcecumleler.FragmentCumleIslemleri;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +35,6 @@ public class FragmentCumleEkle extends Fragment {
     ArrayAdapter<String> arrayAdapter;
     List<String> kategorilerList;
     String taskID;
-    ArrayList<String> cumle1ID,cumle2ID;
-    CountDownTimer timer;
 
     @Nullable
     @Override
@@ -56,7 +52,7 @@ public class FragmentCumleEkle extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!girdiBosMuKontrolEN()||!girdiBosMuKontrolTR()){
-                    sonucuBeklet();
+                    cumleMevcutMu();
                     binding.scrollView.fullScroll(View.FOCUS_DOWN);
                     binding.ekleButton.setEnabled(false);
                 }
@@ -94,53 +90,27 @@ public class FragmentCumleEkle extends Fragment {
     }
 
     private void cumleMevcutMu(){
-        ArrayList<String> durum = new ArrayList<>();
-        ArrayList<String> durum2 = new ArrayList<>();
         String girdi = binding.TextInputLayoutTurkceCumle.getEditText().getText().toString().trim().toLowerCase(Locale.ENGLISH);
         String girdi2 = binding.TextInputLayoutEnglishSentence.getEditText().getText().toString().trim().toLowerCase(new Locale("tr","TR"));
-        durum.add(girdi);
-        durum2.add(girdi2);
         Query query = collectionReferenceCumleler.whereEqualTo("tr", girdi);
-        Query query2 = collectionReferenceCumleler.whereEqualTo("en",girdi2);
+        query.whereEqualTo("en",girdi2);
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
-                if(!documentSnapshots.getDocuments().isEmpty()){
-                    for (int i =0;i<documentSnapshots.size();i++){
-                        cumle1ID.add(documentSnapshots.getDocuments().get(i).getId());
-                        Toast.makeText(getContext(),documentSnapshots.getDocuments().get(i).getId()+"--1",Toast.LENGTH_SHORT).show();
-                    }
-                    //cumle1ID = documentSnapshots.getDocuments().get(0).getId();
-
+                int basariliislem = documentSnapshots.size();
+                if(basariliislem==0){
+                    cumleEkle();
                 }
                 else{
-                    //cumle1ID ="cumle1ID";
-
+                    binding.uyariTextView.setText("Cümle zaten mevcut.");
                 }
-
+                binding.TextInputLayoutTurkceCumle.getEditText().setText("");
+                binding.TextInputLayoutEnglishSentence.getEditText().setText("");
+                binding.TextInputLayoutEnglishSentence.clearFocus();
+                binding.TextInputLayoutTurkceCumle.clearFocus();
+                binding.ekleButton.setEnabled(true);
             }
         });
-        query2.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot documentSnapshots) {
-                if(!documentSnapshots.getDocuments().isEmpty()){
-                    for (int i =0;i<documentSnapshots.size();i++){
-                        cumle2ID.add(documentSnapshots.getDocuments().get(i).getId());
-                        Toast.makeText(getContext(),documentSnapshots.getDocuments().get(i).getId()+"--2",Toast.LENGTH_SHORT).show();
-                    }
-
-                    //cumle2ID = documentSnapshots.getDocuments().get(0).getId();
-
-                }
-                else{
-                    //cumle2ID = "cumle2ID";
-
-                }
-
-
-            }
-        });
-
     }
 
 
@@ -149,8 +119,6 @@ public class FragmentCumleEkle extends Fragment {
         collectionReferenceKategoriler = firestore.collection("Kategoriler");
         collectionReferenceCumleler = firestore.collection("Cumleler");
         kategorilerList = new ArrayList<String>() {};
-        cumle1ID = new ArrayList<String>(){};
-        cumle2ID = new ArrayList<String>(){};
     }
 
     private void spinnerAdapterAyarla(){
@@ -199,45 +167,6 @@ public class FragmentCumleEkle extends Fragment {
             y = false;
         }
         return y;
-    }
-
-    private void sonucuBeklet(){
-        cumleMevcutMu();
-        binding.uyariTextView.setText("Kontrol ediliyor");
-        timer = new CountDownTimer(3000,1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                binding.uyariTextView.append(".");
-            }
-
-            @Override
-            public void onFinish() {
-                boolean kontrol =false;
-                for (String id1 : cumle1ID){
-                    for (String id2 : cumle2ID){
-                        if(id1.equals(id2)){
-                            kontrol = true;
-                        }
-                    }
-                }
-
-                if(!kontrol){
-                    cumleEkle();
-                }
-                else{
-                    cumle1ID.clear();
-                    cumle2ID.clear();
-                    binding.uyariTextView.setText("Cümle zaten mevcut.");
-                }
-                binding.TextInputLayoutTurkceCumle.getEditText().setText("");
-                binding.TextInputLayoutEnglishSentence.getEditText().setText("");
-                binding.TextInputLayoutEnglishSentence.clearFocus();
-                binding.TextInputLayoutTurkceCumle.clearFocus();
-                binding.ekleButton.setEnabled(true);
-            }
-
-        }.start();
-
     }
 
 }

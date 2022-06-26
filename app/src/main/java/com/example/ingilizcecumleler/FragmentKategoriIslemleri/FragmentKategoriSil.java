@@ -56,20 +56,19 @@ public class FragmentKategoriSil extends Fragment {
     }
 
     private void listeyiHazirla(){
-        Query query = collectionReferenceKategoriler;
-        query = query.orderBy("kategoriAdi", Query.Direction.ASCENDING);
+        Query query = collectionReferenceKategoriler.orderBy("kategoriAdi", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<Kategoriler> ayarla =new FirestoreRecyclerOptions.Builder<Kategoriler>().setQuery(query,Kategoriler.class).build();
         adapter = new KategoriListesiAdapter(ayarla,getResources().getString(R.string.KategoriSil),getContext());
         binding.kategoriListesiRecyclerView.setHasFixedSize(true);
         binding.kategoriListesiRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.kategoriListesiRecyclerView.setAdapter(adapter);
-        adapter.startListening();
         adapter.setOnItemClickListener(new KategoriListesiAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 showDialogAlert(documentSnapshot);
             }
         });
+        adapter.startListening();
     }
 
     public void showDialogAlert(DocumentSnapshot documentSnapshot){
@@ -117,5 +116,11 @@ public class FragmentKategoriSil extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }

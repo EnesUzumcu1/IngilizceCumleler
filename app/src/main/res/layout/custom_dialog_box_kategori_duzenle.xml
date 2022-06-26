@@ -46,10 +46,8 @@
                     android:id="@+id/yeni_kategori_adi_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="qwertyuıopğüasdfghjklşizxcvbnmöçQWERTYUIOPĞÜASDFGHJKLŞİZXCVBNMÖÇ123456789-"
                     android:ems="10"
-                    android:inputType="text"
-                    android:maxLength="12" />
+                    android:inputType="text" />
 
                 <TextView
                     android:id="@+id/uyariTextView"

@@ -29,8 +29,8 @@ public class KategoriListesiAdapter extends FirestoreRecyclerAdapter<Kategoriler
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ButunKategorilerHolder holder, int position, @NonNull Kategoriler model) {
-        binding.ilanDurumuTextView.setText(model.kategoriAdi);
+    protected void onBindViewHolder(@NonNull ButunKategorilerHolder holder, final int position, @NonNull Kategoriler model) {
+        binding.ilanDurumuTextView.setText(position+1+"-) "+model.kategoriAdi);
 
         if(islem.equals(context.getResources().getString(R.string.ButunKategoriler))){
             binding.popupImageView.setVisibility(View.INVISIBLE);
@@ -67,7 +67,7 @@ public class KategoriListesiAdapter extends FirestoreRecyclerAdapter<Kategoriler
     public interface OnItemClickListener{
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
-    public void setOnItemClickListener(KategoriListesiAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
 
@@ -84,4 +84,5 @@ public class KategoriListesiAdapter extends FirestoreRecyclerAdapter<Kategoriler
     public int getItemViewType(int position) {
         return position;
     }
+
 }
