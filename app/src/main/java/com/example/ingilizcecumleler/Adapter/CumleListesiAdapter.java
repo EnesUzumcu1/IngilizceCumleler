@@ -1,10 +1,12 @@
 package com.example.ingilizcecumleler.Adapter;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ingilizcecumleler.Object.Cumleler;
@@ -26,9 +28,9 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
     private OnItemClickListener listener;
     private ItemCount count;
     final private Context context;
-    Map<String, String> kategoriMap ;
+    Map<String, String> kategoriMap;
 
-    public CumleListesiAdapter(@NonNull FirestoreRecyclerOptions<Cumleler> options, String islem, Context context, Map<String, String> kategoriMap ) {
+    public CumleListesiAdapter(@NonNull FirestoreRecyclerOptions<Cumleler> options, String islem, Context context, Map<String, String> kategoriMap) {
         super(options);
         this.islem = islem;
         this.context = context;
@@ -38,28 +40,15 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
     @Override
     protected void onBindViewHolder(@NonNull ButunCumlelerHolder holder, final int position, @NonNull Cumleler model) {
         binding.englishSentenceTextView.setText(model.en.toUpperCase(Locale.ENGLISH));
-        binding.turkceKelimeTextView.setText(model.tr.toUpperCase(new Locale("tr","TR")));
+        binding.turkceKelimeTextView.setText(model.tr.toUpperCase(new Locale("tr", "TR")));
 
         binding.textViewKategoriAdi.setText(kategoriMap.get(model.kategoriID));
-
-
-        if(islem.equals(context.getResources().getString(R.string.CumleSil))){
-            binding.imageView8.setImageResource(R.drawable.ic_baseline_delete_24);
-        }
-        else if(islem.equals(context.getResources().getString(R.string.GeriDonusumKutusu))){
-            binding.imageView8.setImageResource(R.drawable.ic_baseline_replay_24);
-            binding.imageView9.setImageResource(R.drawable.ic_baseline_delete_24);
-        }
-        else if(islem.equals(context.getResources().getString(R.string.CumleDuzenle))){
-            binding.imageView8.setImageResource(R.drawable.ic_baseline_edit_24);
-        }
-        //butun cumleler ve cumle eklede simge bulunmuyor.
     }
 
     @NonNull
     @Override
     public ButunCumlelerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding = CustomCumleListeBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        binding = CustomCumleListeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new ButunCumlelerHolder(binding.getRoot());
     }
 
@@ -70,39 +59,69 @@ public class CumleListesiAdapter extends FirestoreRecyclerAdapter<Cumleler, Cuml
             binding.imageView8.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    position = getAdapterPosition();
-                    buttonClick(context.getResources().getString(R.string.ilkButon));
+                    PopupMenu popup = new PopupMenu(itemView.getContext(), v);
+                    //inflating menu from xml resource
+                    if (islem.equals(context.getResources().getString(R.string.GeriDonusumKutusu))) {
+                        popup.inflate(R.menu.popup_menu_geri_donusum);
+                    } else {
+                        popup.inflate(R.menu.popup_menu);
+                    }
+                    //adding click listener
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.popup_geriYukle:
+                                    position = getAdapterPosition();
+                                    buttonClick(R.id.popup_geriYukle);
+                                    return true;
+                                case R.id.popup_kaliciSil:
+                                    position = getAdapterPosition();
+                                    buttonClick(R.id.popup_kaliciSil);
+                                    return true;
+                                case R.id.popup_duzenle:
+                                    position = getAdapterPosition();
+                                    buttonClick(R.id.popup_duzenle);
+                                    return true;
+                                case R.id.popup_sil:
+                                    position = getAdapterPosition();
+                                    buttonClick(R.id.popup_sil);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
+                    //displaying the popup
+                    popup.show();
                 }
             });
-            if(islem.equals(context.getResources().getString(R.string.GeriDonusumKutusu))){
-                binding.imageView9.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        position = getAdapterPosition();
-                        buttonClick(context.getResources().getString(R.string.ikinciButon));
-                    }
-                });
-            }
             itemCount(count);
         }
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(DocumentSnapshot documentSnapshot, int position,String butonAdi);
+    public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position, int butonID);
     }
-    public interface ItemCount{
+
+    public interface ItemCount {
         void onItemCount(int count);
+
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    public void buttonClick(String butonAdi){
-        listener.onItemClick(getSnapshots().getSnapshot(position),position,butonAdi);
+    public void buttonClick(int butonID) {
+        listener.onItemClick(getSnapshots().getSnapshot(position), position, butonID);
     }
-    public void setOnItemCount(ItemCount count){this.count = count;}
 
-    public void itemCount(ItemCount count){
+    public void setOnItemCount(ItemCount count) {
+        this.count = count;
+    }
+
+    public void itemCount(ItemCount count) {
         count.onItemCount(getItemCount());
     }
 

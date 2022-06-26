@@ -49,29 +49,11 @@ public class FragmentCumleIslemleri extends Fragment {
                 startActivity(intent);
             }
         });
-        binding.CardViewCumleDuzenle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CumleIslemleri.class);
-                intent.putExtra("id",getString(R.string.CumleDuzenle));
-                intent.putExtra("map",(Serializable) kategoriIDveAdMap);
-                startActivity(intent);
-            }
-        });
-        binding.CardViewCumleSil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CumleIslemleri.class);
-                intent.putExtra("id",getString(R.string.CumleSil));
-                intent.putExtra("map",(Serializable) kategoriIDveAdMap);
-                startActivity(intent);
-            }
-        });
         binding.CardViewButunCumleler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CumleIslemleri.class);
-                intent.putExtra("id",getString(R.string.ButunCumleler));
+                intent.putExtra("id",getString(R.string.Cumleler));
                 intent.putExtra("map",(Serializable) kategoriIDveAdMap);
                 startActivity(intent);
             }

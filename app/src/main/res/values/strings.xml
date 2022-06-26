@@ -7,18 +7,14 @@
     <string name="KategoriEkle">Kategori Ekle</string>
     <string name="KategoriSil">Kategori Sil</string>
     <string name="ButunKategoriler">Bütün Kategoriler</string>
-    <string name="CumleDuzenle">Cümle Düzenle</string>
     <string name="CumleEkle">Cümle Ekle</string>
-    <string name="CumleSil">Cümle Sil</string>
-    <string name="ButunCumleler">Bütün Cümleler</string>
+    <string name="Cumleler">Cümleler</string>
     <string name="GeriDonusumKutusu">Geri Dönüşüm Kutusu</string>
-    <string name="kategori_ekle">Kategori Ekle</string>
-    <string name="kategori_duzenle">Kategori Düzenle</string>
-    <string name="kategori_sil">Kategori Sil</string>
-    <string name="butun_kategoriler">Bütün Kategoriler</string>
-    <string name="ilkButon">ilk buton</string>
-    <string name="ikinciButon">ikinci buton</string>
     <string name="kategori_adini_giriniz">Kategori Adını Giriniz.</string>
     <string name="ekle">Ekle</string>
     <string name="cumle_sayisi">Bulunan cümle sayısı : </string>
+    <string name="sil">Sil</string>
+    <string name="duzenle">Düzenle</string>
+    <string name="geriYukle">Geri Yükle</string>
+    <string name="kaliciSil">Kalıcı Sil</string>
 </resources>

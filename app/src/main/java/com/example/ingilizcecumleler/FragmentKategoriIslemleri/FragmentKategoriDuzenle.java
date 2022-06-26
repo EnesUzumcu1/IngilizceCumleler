@@ -61,8 +61,7 @@ public class FragmentKategoriDuzenle  extends Fragment {
     }
 
     private void listeyiHazirla(){
-        Query query = collectionReferenceKategori;
-        query = query.orderBy("kategoriAdi", Query.Direction.ASCENDING);
+        Query query = collectionReferenceKategori.orderBy("kategoriAdi", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<Kategoriler> ayarla =new FirestoreRecyclerOptions.Builder<Kategoriler>().setQuery(query,Kategoriler.class).build();
         adapter = new KategoriListesiAdapter(ayarla,getResources().getString(R.string.KategoriDuzenle),getContext());
         binding.kategoriListesiRecyclerView.setHasFixedSize(true);

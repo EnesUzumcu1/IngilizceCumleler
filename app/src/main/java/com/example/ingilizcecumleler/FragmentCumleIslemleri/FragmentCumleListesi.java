@@ -107,37 +107,23 @@ public class FragmentCumleListesi extends Fragment {
             @Override
             public void onClick(View v) {
                 binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+"0");
-                if (id.equals(getString(R.string.ButunCumleler))) {
-                    listeyiHazirlaButunCumleler(taskID);
-                } else if (id.equals(getString(R.string.CumleSil))) {
-                    listeyiHazirlaCumleSil(taskID);
-                } else if (id.equals(getString(R.string.CumleDuzenle))) {
-                    listeyiHazirlaCumleDuzenle(taskID);
-                } else if (id.equals(getString(R.string.GeriDonusumKutusu))) {
+                if (id.equals(getString(R.string.GeriDonusumKutusu))) {
                     listeyiHazirlaGeriDonusumKutusu(taskID);
+                } else {
+                    listeyiHazirlaCumleler(taskID);
                 }
             }
         });
     }
 
-    public void butunCumleler(){
-        atamalarButunCumleler();
-        listeyiHazirlaButunCumleler(taskID);
+    public void cumleler(){
+        atamalarCumleler();
+        listeyiHazirlaCumleler(taskID);
     }
 
     public void geriDonusumKutusu(){
         atamalarGeriDonusumKutusu();
         listeyiHazirlaGeriDonusumKutusu(taskID);
-    }
-
-    public void cumleDuzenle(){
-        atamalarCumleDuzenle();
-        listeyiHazirlaCumleDuzenle(taskID);
-    }
-
-    public void cumleSil(){
-        atamalarCumleSil();
-        listeyiHazirlaCumleSil(taskID);
     }
 
     private void gelenIDBul(){
@@ -150,16 +136,10 @@ public class FragmentCumleListesi extends Fragment {
     }
 
     private void idyeGoreClassCagirma(){
-        if (id.equals(getString(R.string.ButunCumleler))) {
-            butunCumleler();
-        } else if (id.equals(getString(R.string.CumleSil))) {
-            cumleSil();
-        } else if (id.equals(getString(R.string.CumleDuzenle))) {
-            cumleDuzenle();
-        } else if (id.equals(getString(R.string.GeriDonusumKutusu))) {
+        if (id.equals(getString(R.string.GeriDonusumKutusu))) {
             geriDonusumKutusu();
         } else {
-            butunCumleler();
+            cumleler();
         }
     }
 
@@ -172,43 +152,14 @@ public class FragmentCumleListesi extends Fragment {
         kategoriIDveAdMap =new HashMap<>();
     }
 
-    private void atamalarButunCumleler(){
-        //gerekli bir atama yok.
-    }
-
-    private void atamalarGeriDonusumKutusu(){
-        dialogGeriDonusumKutusu = new Dialog(getContext());
-    }
-
-    private void atamalarCumleSil(){
+    private void atamalarCumleler(){
         dialogCumleSil = new Dialog(getContext());
-    }
-
-    private void atamalarCumleDuzenle(){
         dialogCumleDuzenle = new Dialog(getContext());
         kategorilerListCumleDuzenleSpinner = new ArrayList<String>() {};
     }
 
-    private void listeyiHazirlaButunCumleler(String taskID){
-        Query query = collectionReferenceCumleler.whereEqualTo("silindiMi",false);
-        //eger task id yoksa butun cumleleri getirecek. Eger task id varsa secilen kategorideki cumleler gelecek.
-        if(taskID !=null){
-            query = query.whereEqualTo("kategoriID",taskID);
-        }
-        query = query.orderBy("en", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<Cumleler> ayarla =new FirestoreRecyclerOptions.Builder<Cumleler>().setQuery(query,Cumleler.class).build();
-        adapter = new CumleListesiAdapter(ayarla, getResources().getString(R.string.ButunCumleler),getContext(),kategoriIDveAdMap);
-        binding.butunCumlelerRecyclerView.setHasFixedSize(true);
-        binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.butunCumlelerRecyclerView.setAdapter(adapter);
-        adapter.setOnItemCount(new CumleListesiAdapter.ItemCount() {
-            @Override
-            public void onItemCount(int count) {
-                //Toast.makeText(getContext(),count+" <-",Toast.LENGTH_SHORT).show();
-                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
-            }
-        });
-        adapter.startListening();
+    private void atamalarGeriDonusumKutusu(){
+        dialogGeriDonusumKutusu = new Dialog(getContext());
     }
 
     private void listeyiHazirlaGeriDonusumKutusu(String taskID){
@@ -225,12 +176,12 @@ public class FragmentCumleListesi extends Fragment {
         binding.butunCumlelerRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new CumleListesiAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String butonAdi) {
-                if(butonAdi.equals(getResources().getString(R.string.ilkButon))) {
-                    showDialogAlertGeriDonusumKutusu(documentSnapshot,getResources().getString(R.string.ilkButon));
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position, int butonID) {
+                if(butonID == R.id.popup_geriYukle) {
+                    showDialogAlertGeriDonusumKutusu(documentSnapshot,butonID);
                 }
-                else if(butonAdi.equals(getResources().getString(R.string.ikinciButon))){
-                    showDialogAlertGeriDonusumKutusu(documentSnapshot,getResources().getString(R.string.ikinciButon));
+                else if(butonID == R.id.popup_kaliciSil){
+                    showDialogAlertGeriDonusumKutusu(documentSnapshot,butonID);
                 }
             }
         });
@@ -243,7 +194,7 @@ public class FragmentCumleListesi extends Fragment {
         adapter.startListening();
     }
 
-    private void listeyiHazirlaCumleSil(String taskID){
+    private void listeyiHazirlaCumleler(String taskID){
         Query query = collectionReferenceCumleler.whereEqualTo("silindiMi",false);
         query = query.orderBy("en", Query.Direction.ASCENDING);
         //eger task id yoksa butun cumleleri getirecek. Eger task id varsa secilen kategorideki cumleler gelecek.
@@ -251,44 +202,18 @@ public class FragmentCumleListesi extends Fragment {
             query = query.whereEqualTo("kategoriID",taskID);
         }
         FirestoreRecyclerOptions<Cumleler> ayarla =new FirestoreRecyclerOptions.Builder<Cumleler>().setQuery(query,Cumleler.class).build();
-        adapter = new CumleListesiAdapter(ayarla,getResources().getString(R.string.CumleSil),getContext(),kategoriIDveAdMap);
+        adapter = new CumleListesiAdapter(ayarla,getResources().getString(R.string.Cumleler),getContext(),kategoriIDveAdMap);
         binding.butunCumlelerRecyclerView.setHasFixedSize(true);
         binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.butunCumlelerRecyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new CumleListesiAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position,String butonAdi) {
-                if(butonAdi.equals(getResources().getString(R.string.ilkButon))){
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position,int butonID) {
+                if(butonID == R.id.popup_sil){
                     showDialogAlertCumleSil(documentSnapshot);
                 }
-            }
-        });
-        adapter.setOnItemCount(new CumleListesiAdapter.ItemCount() {
-            @Override
-            public void onItemCount(int count) {
-                binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
-            }
-        });
-        adapter.startListening();
-    }
-
-    private void listeyiHazirlaCumleDuzenle(String taskID){
-        Query query = collectionReferenceCumleler.whereEqualTo("silindiMi",false);
-        query = query.orderBy("en", Query.Direction.ASCENDING);
-        //eger task id yoksa butun cumleleri getirecek. Eger task id varsa secilen kategorideki cumleler gelecek.
-        if(taskID !=null){
-            query = query.whereEqualTo("kategoriID",taskID);
-        }
-        FirestoreRecyclerOptions<Cumleler> ayarla =new FirestoreRecyclerOptions.Builder<Cumleler>().setQuery(query,Cumleler.class).build();
-        adapter = new CumleListesiAdapter(ayarla,getResources().getString(R.string.CumleDuzenle),getContext(),kategoriIDveAdMap);
-        binding.butunCumlelerRecyclerView.setHasFixedSize(true);
-        binding.butunCumlelerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.butunCumlelerRecyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new CumleListesiAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position, String butonAdi) {
-                if(butonAdi.equals(getResources().getString(R.string.ilkButon))) {
-                    showDialogAlertCumleDuzenle(documentSnapshot,getResources().getString(R.string.ilkButon));
+                else if(butonID == R.id.popup_duzenle){
+                    showDialogAlertCumleDuzenle(documentSnapshot);
                 }
             }
         });
@@ -296,7 +221,6 @@ public class FragmentCumleListesi extends Fragment {
             @Override
             public void onItemCount(int count) {
                 binding.cumleSayisiTextView.setText(getString(R.string.cumle_sayisi)+count);
-                //Toast.makeText(getContext(),count+"--",Toast.LENGTH_SHORT).show();
             }
         });
         adapter.startListening();
@@ -315,7 +239,7 @@ public class FragmentCumleListesi extends Fragment {
             public void onClick(View v) {
                 cumleyiSil(documentSnapshot);
                 dialogCumleSil.dismiss();
-                listeyiHazirlaCumleSil(taskID);
+                listeyiHazirlaCumleler(taskID);
             }
         });
         hayirButton.setOnClickListener(new View.OnClickListener() {
@@ -328,26 +252,26 @@ public class FragmentCumleListesi extends Fragment {
         dialogCumleSil.show();
     }
 
-    public void showDialogAlertGeriDonusumKutusu(DocumentSnapshot documentSnapshot,String butonAdi){
+    public void showDialogAlertGeriDonusumKutusu(DocumentSnapshot documentSnapshot,int islemID){
         dialogGeriDonusumKutusu.setContentView(R.layout.custom_dialog_box_kategori_sil);
         Button evetButton = dialogGeriDonusumKutusu.findViewById(R.id.evet_button);
         Button hayirButton = dialogGeriDonusumKutusu.findViewById(R.id.hayir_button);
         TextView uyariYazisi = dialogGeriDonusumKutusu.findViewById(R.id.uyariYazisiTextView);
 
-        if(butonAdi.equals(getResources().getString(R.string.ilkButon))){
+        if(islemID ==R.id.popup_geriYukle){
             uyariYazisi.setText(String.format("\"%s\" cümlesini geri getirmek istediğinizden emin misiniz?", documentSnapshot.get("en").toString()));
         }
-        else if(butonAdi.equals(getResources().getString(R.string.ikinciButon))){
+        else if(islemID == R.id.popup_kaliciSil){
             uyariYazisi.setText(String.format("\"%s\" cümlesini kalıcı olarak silmek istediğinizden emin misiniz?", documentSnapshot.get("en").toString()));
         }
 
         evetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(butonAdi.equals(getResources().getString(R.string.ilkButon))){
+                if(islemID ==R.id.popup_geriYukle){
                     cumleyiGeriGetir(documentSnapshot);
                 }
-                else if(butonAdi.equals(getResources().getString(R.string.ikinciButon))){
+                else if(islemID == R.id.popup_kaliciSil){
                     cumleyiKaliciSil(documentSnapshot);
                 }
                 dialogGeriDonusumKutusu.dismiss();
@@ -364,7 +288,7 @@ public class FragmentCumleListesi extends Fragment {
         dialogGeriDonusumKutusu.show();
     }
 
-    public void showDialogAlertCumleDuzenle(DocumentSnapshot documentSnapshot,String butonAdi){
+    public void showDialogAlertCumleDuzenle(DocumentSnapshot documentSnapshot){
         dialogCumleDuzenle.setContentView(R.layout.custom_dialog_box_cumle_duzenle);
         Button evetButton = dialogCumleDuzenle.findViewById(R.id.kaydet_button);
         Button hayirButton = dialogCumleDuzenle.findViewById(R.id.iptal_button);
@@ -411,18 +335,15 @@ public class FragmentCumleListesi extends Fragment {
         evetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(butonAdi.equals(getResources().getString(R.string.ilkButon))){
-                    if (inputIsEmpty(trCumle,enCumle)){
-                        String yeniTrKelime = trCumle.getText().toString().trim();
-                        String yeniEnKelime = enCumle.getText().toString().trim();
-                        trCumleKontrol(documentSnapshot,documentSnapshot.getString("tr"),yeniTrKelime);
-                        enCumleKontrol(documentSnapshot,documentSnapshot.getString("en"),yeniEnKelime);
-                        kategoriKontrol(documentSnapshot,kategoriSpinner.getSelectedItem().toString(),kategoriAdi);
-                    }
-
+                if (inputIsEmpty(trCumle,enCumle)){
+                    String yeniTrKelime = trCumle.getText().toString().trim();
+                    String yeniEnKelime = enCumle.getText().toString().trim();
+                    trCumleKontrol(documentSnapshot,documentSnapshot.getString("tr"),yeniTrKelime);
+                    enCumleKontrol(documentSnapshot,documentSnapshot.getString("en"),yeniEnKelime);
+                    kategoriKontrol(documentSnapshot,kategoriSpinner.getSelectedItem().toString(),kategoriAdi);
                 }
                 dialogCumleDuzenle.dismiss();
-                listeyiHazirlaCumleDuzenle(taskID);
+                listeyiHazirlaCumleler(taskID);
             }
         });
         hayirButton.setOnClickListener(new View.OnClickListener() {

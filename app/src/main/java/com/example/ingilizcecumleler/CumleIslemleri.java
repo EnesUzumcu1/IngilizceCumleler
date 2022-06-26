@@ -38,17 +38,9 @@ public class CumleIslemleri extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(binding.fragmentContainer.getId(),new FragmentCumleEkle()).commit();
             binding.toolbar.setTitle(getString(R.string.CumleEkle));
         }
-        else if(id.equals(getString(R.string.CumleDuzenle))){
+        else if(id.equals(getString(R.string.Cumleler))){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
-            binding.toolbar.setTitle(getString(R.string.CumleDuzenle));
-        }
-        else if(id.equals(getString(R.string.CumleSil))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
-            binding.toolbar.setTitle(getString(R.string.CumleSil));
-        }
-        else if(id.equals(getString(R.string.ButunCumleler))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
-            binding.toolbar.setTitle(getString(R.string.ButunCumleler));
+            binding.toolbar.setTitle(getString(R.string.Cumleler));
         }
         else if(id.equals(getString(R.string.GeriDonusumKutusu))){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentCumleListesi()).commit();
