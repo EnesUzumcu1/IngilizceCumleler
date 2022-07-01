@@ -3,10 +3,8 @@
     <string name="email">E-Mail</string>
     <string name="sifre">Şifre</string>
     <string name="sifremi_unuttum"><u>Şifremi Unuttum</u></string>
-    <string name="KategoriDuzenle">Kategori Düzenle</string>
     <string name="KategoriEkle">Kategori Ekle</string>
-    <string name="KategoriSil">Kategori Sil</string>
-    <string name="ButunKategoriler">Bütün Kategoriler</string>
+    <string name="Kategoriler">Kategoriler</string>
     <string name="CumleEkle">Cümle Ekle</string>
     <string name="Cumleler">Cümleler</string>
     <string name="GeriDonusumKutusu">Geri Dönüşüm Kutusu</string>

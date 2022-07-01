@@ -6,10 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.ingilizcecumleler.FragmentKategoriIslemleri.FragmentButunKategoriler;
-import com.example.ingilizcecumleler.FragmentKategoriIslemleri.FragmentKategoriDuzenle;
+import com.example.ingilizcecumleler.FragmentKategoriIslemleri.FragmentKategoriListesi;
 import com.example.ingilizcecumleler.FragmentKategoriIslemleri.FragmentKategoriEkle;
-import com.example.ingilizcecumleler.FragmentKategoriIslemleri.FragmentKategoriSil;
 import com.example.ingilizcecumleler.databinding.ActivityKategoriIslemleriBinding;
 
 public class KategoriIslemleri extends AppCompatActivity {
@@ -40,17 +38,9 @@ public class KategoriIslemleri extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentKategoriEkle()).commit();
             binding.toolbar.setTitle(getString(R.string.KategoriEkle));
         }
-        else if(id.equals(getString(R.string.KategoriDuzenle))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentKategoriDuzenle()).commit();
-            binding.toolbar.setTitle(getString(R.string.KategoriDuzenle));
-        }
-        else if(id.equals(getString(R.string.KategoriSil))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentKategoriSil()).commit();
-            binding.toolbar.setTitle(getString(R.string.KategoriSil));
-        }
-        else if(id.equals(getString(R.string.ButunKategoriler))){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentButunKategoriler()).commit();
-            binding.toolbar.setTitle(getString(R.string.ButunKategoriler));
+        else if(id.equals(getString(R.string.Kategoriler))){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new FragmentKategoriListesi()).commit();
+            binding.toolbar.setTitle(getString(R.string.Kategoriler));
         }
     }
 

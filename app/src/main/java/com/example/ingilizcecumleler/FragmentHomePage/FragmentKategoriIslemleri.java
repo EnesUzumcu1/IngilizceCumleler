@@ -35,27 +35,11 @@ public class FragmentKategoriIslemleri extends Fragment {
                 startActivity(intent);
             }
         });
-        binding.CardViewKategoriDuzenle.setOnClickListener(new View.OnClickListener() {
+        binding.CardViewKategoriler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), KategoriIslemleri.class);
-                intent.putExtra("id",getString(R.string.KategoriDuzenle));
-                startActivity(intent);
-            }
-        });
-        binding.CardViewKategoriSil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), KategoriIslemleri.class);
-                intent.putExtra("id",getString(R.string.KategoriSil));
-                startActivity(intent);
-            }
-        });
-        binding.CardViewButunKategoriler.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), KategoriIslemleri.class);
-                intent.putExtra("id",getString(R.string.ButunKategoriler));
+                intent.putExtra("id",getString(R.string.Kategoriler));
                 startActivity(intent);
             }
         });

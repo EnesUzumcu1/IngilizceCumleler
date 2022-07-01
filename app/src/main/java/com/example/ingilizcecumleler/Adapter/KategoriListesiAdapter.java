@@ -2,10 +2,12 @@ package com.example.ingilizcecumleler.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ingilizcecumleler.Object.Kategoriler;
@@ -18,29 +20,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 public class KategoriListesiAdapter extends FirestoreRecyclerAdapter<Kategoriler, KategoriListesiAdapter.ButunKategorilerHolder> {
 
     private CustomKategoriListeBinding binding;
-    final private Context context;
     private OnItemClickListener listener;
     public int position;
-    String islem;
-    public KategoriListesiAdapter(@NonNull FirestoreRecyclerOptions<Kategoriler> options, String islem, Context context) {
+    public KategoriListesiAdapter(@NonNull FirestoreRecyclerOptions<Kategoriler> options) {
         super(options);
-        this.islem = islem;
-        this.context = context;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull ButunKategorilerHolder holder, final int position, @NonNull Kategoriler model) {
         binding.ilanDurumuTextView.setText(position+1+"-) "+model.kategoriAdi);
-
-        if(islem.equals(context.getResources().getString(R.string.ButunKategoriler))){
-            binding.popupImageView.setVisibility(View.INVISIBLE);
-        }
-        else if(islem.equals(context.getResources().getString(R.string.KategoriSil))){
-            binding.popupImageView.setImageResource(R.drawable.ic_baseline_delete_24);
-        }
-        else if(islem.equals(context.getResources().getString(R.string.KategoriDuzenle))){
-            binding.popupImageView.setImageResource(R.drawable.ic_baseline_edit_24);
-        }
     }
 
     @NonNull
@@ -53,26 +41,45 @@ public class KategoriListesiAdapter extends FirestoreRecyclerAdapter<Kategoriler
     class ButunKategorilerHolder extends RecyclerView.ViewHolder{
         public ButunKategorilerHolder(View itemView){
             super(itemView);
-            if(islem.equals(context.getResources().getString(R.string.KategoriSil)) || islem.equals(context.getResources().getString(R.string.KategoriDuzenle))){
-                binding.popupImageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        position = getAdapterPosition();
-                        buttonClick();
-                    }
-                });
-            }
+            binding.popupImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(itemView.getContext(), v);
+                    //inflating menu from xml resource
+                    popup.inflate(R.menu.popup_menu);
+                    //adding click listener
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.popup_duzenle:
+                                    position = getAdapterPosition();
+                                    buttonClick(R.id.popup_duzenle);
+                                    return true;
+                                case R.id.popup_sil:
+                                    position = getAdapterPosition();
+                                    buttonClick(R.id.popup_sil);
+                                    return true;
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
+                    //displaying the popup
+                    popup.show();
+                }
+            });
         }
     }
     public interface OnItemClickListener{
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+        void onItemClick(DocumentSnapshot documentSnapshot, int position, int butonID);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         this.listener = listener;
     }
 
-    public void buttonClick(){
-        listener.onItemClick(getSnapshots().getSnapshot(position),position);
+    public void buttonClick(int butonID){
+        listener.onItemClick(getSnapshots().getSnapshot(position),position,butonID);
     }
 
     @Override
